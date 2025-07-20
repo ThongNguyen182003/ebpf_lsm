@@ -1,4 +1,4 @@
-# 🔐 eBPF-LSM Playground
+# eBPF-LSM Playground
 
 This project is a collection of **eBPF LSM (Linux Security Module)** programs to explore and demonstrate how different Linux security hooks can be used to **monitor** and **control** kernel-level behavior.
 
@@ -128,7 +128,7 @@ sudo cat /sys/kernel/debug/tracing/trace_pipe
 * Test:
 
   ```bash
-  curl google.com
+  ping 1.1.1.1
   ```
 
 ---
@@ -145,7 +145,7 @@ sudo cat /sys/kernel/debug/tracing/trace_pipe
 
 ---
 
-## 📝 Notes
+## Notes
 
 * If you move the project to another machine or kernel:
 
@@ -157,12 +157,12 @@ sudo cat /sys/kernel/debug/tracing/trace_pipe
 
 ---
 
-## 🧑‍💻 Author
+## Author
 
 * **Thong Nguyen** – [GitHub](https://github.com/ThongNguyen182003)
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the GPLv2 – see the [LICENSE](LICENSE) file for details.

@@ -2,6 +2,59 @@
 
 This project is a collection of **eBPF LSM (Linux Security Module)** programs to explore and demonstrate how different Linux security hooks can be used to **monitor** and **control** kernel-level behavior.
 
+---
+
+## Verifying BPF LSM Availability
+
+Before building and running this project, make sure your system supports BPF LSM.
+
+### 1. Check Kernel Version
+
+You need **Linux kernel 5.7 or newer**:
+
+```bash
+uname -r
+```
+
+### 2. Check If BPF LSM Is Enabled
+
+Run the following:
+
+```bash
+cat /boot/config-$(uname -r) | grep BPF_LSM
+```
+
+Expected output:
+
+```
+CONFIG_BPF_LSM=y
+```
+
+### 3. Check If BPF Is Active in LSM List
+
+Run:
+
+```bash
+cat /sys/kernel/security/lsm
+```
+
+If `bpf` is **not included**, edit `/etc/default/grub`:
+
+```bash
+GRUB_CMDLINE_LINUX="lsm=lockdown,yama,apparmor,bpf"
+```
+
+> You can append `bpf` at the end of the existing `lsm=` list if present.
+
+Then update grub and reboot:
+
+```bash
+sudo update-grub
+sudo reboot
+```
+
+---
+
 ## Project Structure
 
 ```
@@ -26,7 +79,6 @@ eBPF-LSM-Playground/
 
 * Linux kernel **5.7+** with `CONFIG_BPF_LSM=y`
 * `bpftool`, `clang`, `libbpf-dev`
-* `libbpf` (static or shared)
 * Capable of loading LSM eBPF (see `/sys/kernel/security/lsm`)
 
 ---
@@ -67,7 +119,6 @@ sudo cat /sys/kernel/debug/tracing/trace_pipe
 
   ```bash
   sudo touch /etc/test.txt
-  # or: run any privileged command
   ```
 
 ---
@@ -108,7 +159,7 @@ sudo cat /sys/kernel/debug/tracing/trace_pipe
 
 ---
 
-### 5. exec (`exec/exec.bpf.c`)
+### 5. Exec (`exec/exec.bpf.c`)
 
 * Hook: `lsm/bprm_check_security`
 * Logs every binary execution.
@@ -154,12 +205,6 @@ sudo cat /sys/kernel/debug/tracing/trace_pipe
   ```
 
 * Use `sudo dmesg` or `trace_pipe` to debug eBPF program behavior.
-
----
-
-## Author
-
-* **Thong Nguyen** – [GitHub](https://github.com/ThongNguyen182003)
 
 ---
 
